@@ -1,0 +1,120 @@
+@import "tailwindcss";
+
+@layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    font-family: 'Montserrat', system-ui, -apple-system, sans-serif;
+    font-weight: 400;
+    color: #0A2A6B;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-weight: 400;
+    letter-spacing: -0.015em;
+  }
+}
+
+.font-script {
+  font-family: 'Caveat', cursive;
+}
+
+/* Glassmorphism utility classes matching the pixel-perfect screenshot */
+.glass-nav {
+  background: rgba(255, 255, 255, 0.45);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  box-shadow: 0 10px 30px -5px rgba(3, 60, 160, 0.08), inset 0 1px 1px rgba(255, 255, 255, 0.9);
+}
+
+.glass-hero-pill {
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+.glass-card-hero {
+  background: rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.06), inset 0 1px 1px rgba(255, 255, 255, 0.6);
+}
+
+.glass-card-light {
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  box-shadow: 0 12px 32px rgba(3, 60, 160, 0.05), inset 0 1px 0 rgba(255, 255, 255, 0.95);
+}
+
+.glass-card-interactive {
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.glass-card-interactive:hover {
+  transform: translateY(-6px);
+  background: rgba(255, 255, 255, 0.9);
+  border-color: rgba(91, 178, 245, 0.4);
+  box-shadow: 0 20px 40px rgba(3, 60, 160, 0.12), inset 0 1px 0 rgba(255, 255, 255, 1);
+}
+
+.btn-green-gradient {
+  background: linear-gradient(135deg, #6CC24A 0%, #0F7A33 100%);
+  color: #ffffff;
+  box-shadow: 0 8px 20px -4px rgba(108, 194, 74, 0.4);
+  transition: all 0.3s ease;
+}
+
+.btn-green-gradient:hover {
+  background: linear-gradient(135deg, #78d154 0%, #128a3a 100%);
+  box-shadow: 0 12px 24px -4px rgba(108, 194, 74, 0.55);
+  transform: translateY(-2px);
+}
+
+.text-accent-green {
+  color: #6CC24A;
+}
+
+.bg-accent-green {
+  background-color: #6CC24A;
+}
+
+.border-accent-green {
+  border-color: #6CC24A;
+}
+
+/* ECG stroke animation */
+@keyframes ecg-draw {
+  0% { stroke-dashoffset: 1000; }
+  100% { stroke-dashoffset: 0; }
+}
+
+.animate-ecg {
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 1000;
+  animation: ecg-draw 2.5s ease-in-out infinite;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #EBF4FC;
+}
+::-webkit-scrollbar-thumb {
+  background: #5BB2F5;
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #033CA0;
+}

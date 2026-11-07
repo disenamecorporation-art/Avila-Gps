@@ -1,0 +1,6 @@
+{
+  "name": "ÁVILA GPS - Gestión Profesional de Salud",
+  "description": "Sitio web oficial de Gestión Profesional de Salud Ávila C.A. Atención médica integral, telemedicina, laboratorio en casa y especialistas.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
