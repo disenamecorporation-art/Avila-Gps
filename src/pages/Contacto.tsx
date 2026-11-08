@@ -37,6 +37,22 @@ export const Contacto: React.FC = () => {
       origin: { y: 0.7 },
       colors: ['#6CC24A', '#5BB2F5', '#033CA0']
     });
+
+    // Build structured inquiry message for 0412-1716058
+    const lines = [
+      '📩 *CONSULTA WEB - ÁVILA GPS*',
+      '----------------------------------------',
+      `👤 *Nombre:* ${name}`,
+      `📞 *Teléfono:* ${phone}`,
+      email ? `✉️ *Correo:* ${email}` : '',
+      `🏥 *Requerimiento:* ${serviceType}`,
+      `💬 *Mensaje:* ${message}`,
+      '----------------------------------------',
+      'Enviado desde el formulario de contacto web.'
+    ].filter(Boolean).join('\n');
+
+    const whatsappUrl = `https://wa.me/584121716058?text=${encodeURIComponent(lines)}`;
+    window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
   };
 
   return (
@@ -78,12 +94,24 @@ export const Contacto: React.FC = () => {
                 <p className="text-xs text-slate-600 font-light max-w-md mx-auto">
                   Gracias, <strong>{name}</strong>. Hemos recibido tu mensaje. Nos comunicaremos contigo al {phone} en la brevedad posible.
                 </p>
-                <button
-                  onClick={() => setIsSent(false)}
-                  className="btn-green-gradient px-6 py-2.5 rounded-full text-xs font-normal text-white mt-4"
-                >
-                  Enviar Otro Mensaje
-                </button>
+                <div className="flex flex-col sm:flex-row justify-center gap-3 pt-2">
+                  <a
+                    href={`https://wa.me/584121716058?text=${encodeURIComponent(
+                      `📩 *CONSULTA WEB - ÁVILA GPS*\n👤 *Nombre:* ${name}\n📞 *Teléfono:* ${phone}\n🏥 *Requerimiento:* ${serviceType}\n💬 *Mensaje:* ${message}`
+                    )}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="btn-green-gradient px-6 py-2.5 rounded-full text-xs font-medium text-white shadow-md flex items-center justify-center gap-2"
+                  >
+                    <span>Abrir WhatsApp (0412-1716058)</span>
+                  </a>
+                  <button
+                    onClick={() => setIsSent(false)}
+                    className="px-6 py-2.5 rounded-full text-xs font-medium text-slate-600 bg-white border border-slate-200 hover:bg-slate-100 transition shadow-sm"
+                  >
+                    Enviar Otro Mensaje
+                  </button>
+                </div>
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-4">

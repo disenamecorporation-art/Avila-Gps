@@ -37,6 +37,28 @@ export const AppointmentModal: React.FC<AppointmentModalProps> = ({
       origin: { y: 0.6 },
       colors: ['#6CC24A', '#0F7A33', '#5BB2F5', '#033CA0']
     });
+
+    // Build structured WhatsApp message for 0412-1716058
+    const serviceTitle = SERVICES.find(s => s.id === service)?.title || service;
+    const modalText = locationType === 'home' ? 'Atención en el Hogar' : 'Consulta en Consultorio / Centro Aliado';
+    const lines = [
+      '🩺 *SOLICITUD DE ATENCIÓN MÉDICA - ÁVILA GPS*',
+      '----------------------------------------',
+      `👤 *Paciente:* ${patientName || 'No indicado'}`,
+      `📞 *Teléfono:* ${patientPhone || 'No indicado'}`,
+      patientId ? `🪪 *Cédula:* ${patientId}` : '',
+      `🏥 *Servicio:* ${serviceTitle}`,
+      doctor ? `👨‍⚕️ *Especialista:* ${doctor}` : '',
+      `📍 *Modalidad:* ${modalText}`,
+      appointmentDate ? `📅 *Fecha sugerida:* ${appointmentDate}` : '',
+      '----------------------------------------',
+      'Por favor, confirmar disponibilidad y atención.'
+    ].filter(Boolean).join('\n');
+
+    const whatsappUrl = `https://wa.me/584121716058?text=${encodeURIComponent(lines)}`;
+    
+    // Open WhatsApp directly in new window
+    window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
   };
 
   const resetAndClose = () => {
@@ -130,12 +152,29 @@ export const AppointmentModal: React.FC<AppointmentModalProps> = ({
                       </div>
                     </div>
 
-                    <button
-                      onClick={resetAndClose}
-                      className="btn-green-gradient px-8 py-3 rounded-full text-xs font-normal tracking-wide shadow-md"
-                    >
-                      Aceptar y Cerrar
-                    </button>
+                    <div className="flex flex-col sm:flex-row justify-center gap-3 pt-2">
+                      <a
+                        href={`https://wa.me/584121716058?text=${encodeURIComponent(
+                          `🩺 *SOLICITUD DE ATENCIÓN MÉDICA - ÁVILA GPS*\n` +
+                          `👤 *Paciente:* ${patientName}\n` +
+                          `📞 *Teléfono:* ${patientPhone}\n` +
+                          `🏥 *Servicio:* ${SERVICES.find(s => s.id === service)?.title || service}\n` +
+                          (doctor ? `👨‍⚕️ *Especialista:* ${doctor}\n` : '') +
+                          `📍 *Modalidad:* ${locationType === 'home' ? 'Atención en el Hogar' : 'Consulta en Consultorio'}`
+                        )}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="btn-green-gradient px-6 py-2.5 rounded-full text-xs font-medium tracking-wide shadow-md flex items-center justify-center gap-2"
+                      >
+                        <span>Abrir WhatsApp (0412-1716058)</span>
+                      </a>
+                      <button
+                        onClick={resetAndClose}
+                        className="px-6 py-2.5 rounded-full text-xs font-medium text-slate-600 bg-white border border-slate-200 hover:bg-slate-100 transition shadow-sm"
+                      >
+                        Cerrar
+                      </button>
+                    </div>
                   </div>
                 ) : (
                   <form onSubmit={handleSubmit} className="space-y-4">
