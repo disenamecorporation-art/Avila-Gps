@@ -21,9 +21,92 @@ export interface ServiceItem {
   badge?: string;
   image?: string;
   details?: string[];
+  modalServiceId?: string;
 }
 
 export const SERVICES: ServiceItem[] = [
+  {
+    id: 'cardiology-unit',
+    title: 'Unidad de Cardiología avanzada',
+    shortDesc: 'Evaluación cardiovascular integral y monitoreo especializado.',
+    fullDesc: 'Contamos con una unidad especializada en salud cardiovascular dedicada a la prevención, diagnóstico oportuno y control de patologías cardíacas con tecnología de precisión y especialistas certificados.',
+    iconName: 'HeartPulse',
+    color: 'from-rose-500 to-blue-600',
+    badge: 'Unidad Especializada',
+    modalServiceId: 'specialist-consultations',
+    details: [
+      'Consultas de cardiología clínica y evaluación de riesgo cardiovascular',
+      'Electrocardiograma, ecocardiograma y monitoreo ambulatorio',
+      'Control personalizado de hipertensión y arritmias',
+      'Valoración preoperatoria cardiovascular integral'
+    ],
+    image: 'https://images.unsplash.com/photo-1559757175-5700dde675bc?auto=format&fit=crop&q=80&w=800'
+  },
+  {
+    id: 'radiology-imaging-unit',
+    title: 'Unidad de Radiología e imágenes',
+    shortDesc: 'Estudios diagnósticos por imágenes con alta precisión.',
+    fullDesc: 'Nuestra Unidad de Radiología e Imágenes ofrece estudios diagnósticos confiables con equipos modernos y entrega ágil de informes médicos para respaldar cada decisión clínica.',
+    iconName: 'ScanLine',
+    color: 'from-sky-500 to-indigo-600',
+    badge: 'Alta Precisión',
+    modalServiceId: 'radiology-services',
+    details: [
+      'Radiología digital convencional y estudios especiales',
+      'Ecografías integrales, Doppler y ultrasonido diagnóstico',
+      'Informes realizados por médicos especialistas en imagenología',
+      'Entrega digital rápida para tu médico tratante'
+    ],
+    image: 'https://images.unsplash.com/photo-1516549655169-df83a0774514?auto=format&fit=crop&q=80&w=800'
+  },
+  {
+    id: 'occupational-medicine',
+    title: 'Medicina Ocupacional',
+    shortDesc: 'Salud laboral, evaluaciones y bienestar empresarial.',
+    fullDesc: 'Diseñamos programas de medicina ocupacional adaptados a empresas e instituciones, garantizando el cumplimiento normativo y el cuidado preventivo de cada trabajador.',
+    iconName: 'BriefcaseMedical',
+    color: 'from-emerald-500 to-cyan-600',
+    modalServiceId: 'occupational-medicine',
+    details: [
+      'Evaluaciones médicas preempleo, periódicas y postempleo',
+      'Certificados de aptitud laboral y vigilancia epidemiológica',
+      'Jornadas médicas preventivas in-company para equipos de trabajo',
+      'Asesoría en seguridad y salud en el trabajo (LOPCYMAT)'
+    ],
+    image: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&q=80&w=800'
+  },
+  {
+    id: 'clinical-laboratory',
+    title: 'Laboratorio Clínico',
+    shortDesc: 'Análisis clínicos confiables de rutina y pruebas especiales.',
+    fullDesc: 'Disponemos de servicio de Laboratorio Clínico con altos estándares de calidad bioanalítica para exámenes de rutina, perfiles preventivos, hormonales y pruebas especializadas.',
+    iconName: 'FlaskConical',
+    color: 'from-teal-400 to-emerald-600',
+    modalServiceId: 'laboratory-services',
+    details: [
+      'Hematología, química sanguínea, perfil 20, perfil tiroideo y lipídico',
+      'Pruebas hormonales, marcadores e inmunología especializada',
+      'Atención en sede y coordinación de toma de muestras a domicilio',
+      'Resultados digitales confiables enviados vía WhatsApp o correo'
+    ],
+    image: 'https://images.unsplash.com/photo-1582719471384-894fbb16e074?auto=format&fit=crop&q=80&w=800'
+  },
+  {
+    id: 'primary-medical-assistance',
+    title: 'Asistencia médica primaria',
+    shortDesc: 'Atención médica oportuna, preventiva y seguimiento continuo.',
+    fullDesc: 'Brindamos asistencia médica primaria enfocada en la prevención, diagnóstico temprano y control integral de la salud familiar tanto en nuestras instalaciones como a través de nuestra red aliada.',
+    iconName: 'Stethoscope',
+    color: 'from-blue-500 to-cyan-600',
+    modalServiceId: 'home-consultations',
+    details: [
+      'Evaluación clínica integral para niños, adultos y adultos mayores',
+      'Control y seguimiento de enfermedades agudas y crónicas',
+      'Orientación terapéutica y referencia directa con especialistas',
+      'Planes de atención para afiliados, asegurados y particulares'
+    ],
+    image: 'https://images.unsplash.com/photo-1505751172876-fa1923c5c528?auto=format&fit=crop&q=80&w=800'
+  },
   {
     id: 'covid-protocol',
     title: 'Protocolo COVID',
@@ -31,8 +114,9 @@ export const SERVICES: ServiceItem[] = [
     fullDesc: 'Nuestro equipo de médicos y enfermeras son especialistas en descarte, tratamiento y prevención del COVID-19. Garantizamos a nuestros afiliados atención inmediata y seguimiento en su hogar.',
     iconName: 'ShieldAlert',
     color: 'from-blue-400 to-indigo-500',
+    modalServiceId: 'covid-protocol',
     details: [
-      'Descarte rápido y pruebas moleculares a domicilio',
+      'Descarte rápido y pruebas a domicilio',
       'Esquema de tratamiento bajo supervisión médica continua',
       'Monitoreo constante de saturación de oxígeno y signos vitales',
       'Concentradores de oxígeno y soporte respiratorio si se requiere'
@@ -47,11 +131,12 @@ export const SERVICES: ServiceItem[] = [
     iconName: 'Smartphone',
     color: 'from-sky-400 to-blue-600',
     badge: '12h / 7 días',
+    modalServiceId: 'telemedicine',
     details: [
-      'Videollamadas en alta definición con médicos de guardia',
-      'Recéptas digitales enviadas directamente a tu teléfono o e-mail',
+      'Videollamadas y orientación directa con médicos de guardia',
+      'Indicaciones y récipes digitales enviados a tu teléfono o correo',
       'Orientación y triaje médico inmediato para ti y tu familia',
-      'Historial de consultas sincronizado en plataforma segura'
+      'Seguimiento clínico coordinado en plataforma segura'
     ],
     image: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&q=80&w=800'
   },
@@ -62,10 +147,11 @@ export const SERVICES: ServiceItem[] = [
     fullDesc: 'Ofrecemos el servicio de toma de muestras de laboratorio a domicilio para la realización de perfiles de laboratorio y pruebas especiales, con envío de resultados por correo electrónico o WhatsApp.',
     iconName: 'FlaskConical',
     color: 'from-emerald-400 to-teal-600',
+    modalServiceId: 'laboratory-services',
     details: [
       'Personal bioanalista altamente capacitado y certificado',
       'Perfiles de rutina, perfil 20, tiroideo, hormonal y marcadores',
-      'Resultados digitales en menos de 24 horas vía correo o WhatsApp',
+      'Resultados digitales rápidos vía correo o WhatsApp',
       'Toma de muestras pediátricas y geriátricas con cuidado especializado'
     ],
     image: 'https://images.unsplash.com/photo-1579154204601-01588f351e67?auto=format&fit=crop&q=80&w=800'
@@ -77,59 +163,123 @@ export const SERVICES: ServiceItem[] = [
     fullDesc: 'Brindamos asistencia médica las 24 horas; contamos con unidades de avance médicas para urgencias o patologías comunes. Nuestro servicio incluye la colocación de tratamiento vía oral, intramuscular, endovenosa, nebulización o hidratación. Además, proporcionamos recomendaciones médicas, indicaciones o referencias con especialistas.',
     iconName: 'HomePlus',
     color: 'from-green-400 to-emerald-600',
+    modalServiceId: 'home-consultations',
     details: [
-      'Unidades médicas de avance equipadas para emergencias',
+      'Unidades médicas de avance equipadas para atención domiciliaria',
       'Administración de medicamentos EV, IM, nebulizaciones e hidratación',
-      'Evaluación física completa por médico cirujano o especialista',
-      'Remisión rápida a centros quirúrgicos si se detecta complicación'
+      'Evaluación física completa por médico profesional',
+      'Remisión rápida a centros quirúrgicos si se requiere mayor complejidad'
     ],
     image: 'https://images.unsplash.com/photo-1581594693702-fbdc51b2763b?auto=format&fit=crop&q=80&w=800'
   },
   {
-    id: 'primary-care',
-    title: 'Atención primaria en salud',
-    shortDesc: 'Control y prevención de enfermedades.',
-    fullDesc: 'Ofrecemos a nuestros afiliados acceso garantizado con profesionales médicos para el control y prevención de enfermedades. Además, contamos con centros de imágenes y laboratorios bioclínicos, a través de aliados estratégicos en diversas ciudades del país.',
-    iconName: 'HeartHandshake',
-    color: 'from-blue-500 to-cyan-600',
-    details: [
-      'Evaluación clínica integral y despistaje preventivo',
-      'Control de pacientes crónicos (Hipertensión, Diabetes, etc.)',
-      'Acceso preferencial a centros de imágenes (Rayos X, Eco, Tomografía)',
-      'Planes de salud familiares y corporativos a medida'
-    ],
-    image: 'https://images.unsplash.com/photo-1505751172876-fa1923c5c528?auto=format&fit=crop&q=80&w=800'
-  },
-  {
-    id: 'medicine-delivery',
-    title: 'Delivery de medicamentos',
-    shortDesc: 'Suministro a través de una llamada.',
-    fullDesc: 'Nuestros afiliados podrán contar con el suministro de medicamentos a través de una llamada telefónica con entrega rápida y directa en su residencia u oficina.',
-    iconName: 'Pill',
-    color: 'from-teal-400 to-emerald-500',
-    details: [
-      'Despacho de medicamentos agudos y de tratamiento continuo',
-      'Inventario garantizado con cadenas farmacéuticas aliadas',
-      'Entrega express con cadena de frío garantizada para insulinas y biológicos',
-      'Descuentos exclusivos para afiliados Ávila GPS'
-    ],
-    image: 'https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&q=80&w=800'
-  },
-  {
     id: 'elective-surgeries',
-    title: 'Cirugías electivas y especialidades',
-    shortDesc: 'Intervenciones quirúrgicas programadas y diagnósticos.',
-    fullDesc: 'Coordinación completa para intervenciones quirúrgicas electivas en centros de salud aliados de primer nivel, acompañamiento pre y postoperatorio y valoraciones médicas especializadas.',
+    title: 'Cirugías electivas',
+    shortDesc: 'Intervenciones quirúrgicas programadas con respaldo integral.',
+    fullDesc: 'Coordinación completa para intervenciones quirúrgicas electivas en centros de salud aliados de primer nivel, con acompañamiento preoperatorio, quirúrgico y postoperatorio.',
     iconName: 'Activity',
     color: 'from-indigo-500 to-blue-700',
+    modalServiceId: 'elective-surgeries',
     details: [
       'Evaluación preanestésica y riesgo cardiovascular',
-      'Habitaciones clínicas equipadas y quirófanos de tecnología avanzada',
+      'Quirófanos equipados y atención hospitalaria segura',
       'Seguimiento médico postoperatorio personalizado',
-      'Convenios de cobertura directa con aseguradoras'
+      'Convenios de atención con compañías aseguradoras y empresas'
     ],
     image: 'https://images.unsplash.com/photo-1551076805-e1869033e561?auto=format&fit=crop&q=80&w=800'
   }
+];
+
+export const HOME_UNITS = [
+  {
+    id: 'cardiology-unit',
+    modalServiceId: 'specialist-consultations',
+    title: 'Unidad de Cardiología avanzada',
+    desc: 'Diagnóstico cardiovascular integral, electrocardiogramas, ecocardiogramas y control especializado para cuidar tu corazón.',
+    iconName: 'HeartPulse',
+    accent: 'from-rose-500/15 to-blue-500/10'
+  },
+  {
+    id: 'radiology-imaging-unit',
+    modalServiceId: 'radiology-services',
+    title: 'Unidad de Radiología e imágenes',
+    desc: 'Estudios de radiología digital y ultrasonido diagnóstico de alta resolución con resultados ágiles y confiables.',
+    iconName: 'ScanLine',
+    accent: 'from-sky-500/15 to-indigo-500/10'
+  },
+  {
+    id: 'occupational-medicine',
+    modalServiceId: 'occupational-medicine',
+    title: 'Medicina Ocupacional',
+    desc: 'Evaluaciones preempleo, control periódico, certificaciones y jornadas de salud laboral para empresas e instituciones.',
+    iconName: 'BriefcaseMedical',
+    accent: 'from-emerald-500/15 to-teal-500/10'
+  }
+];
+
+export const HOME_OFFERINGS = [
+  {
+    id: 'radiology-services',
+    title: 'Servicios de Radiología e imágenes avanzada',
+    shortDesc: 'Estudios radiológicos y ecográficos de alta resolución con diagnóstico preciso.',
+    iconName: 'ScanLine'
+  },
+  {
+    id: 'specialist-consultations',
+    title: 'Servicios de Cardiología avanzada',
+    shortDesc: 'Valoración cardiovascular especializada, ecocardiografía y prevención cardíaca.',
+    iconName: 'HeartPulse'
+  },
+  {
+    id: 'nursing-services',
+    title: 'Servicios de enfermería especializado',
+    shortDesc: 'Cuidados clínicos profesionales, aplicación de tratamientos y monitoreo continuo.',
+    iconName: 'HeartHandshake'
+  },
+  {
+    id: 'medical-specialties',
+    modalServiceId: 'specialist-consultations',
+    title: 'Especialidades Médicas',
+    shortDesc: 'Amplia red de especialistas en medicina interna, pediatría, ginecología y más.',
+    iconName: 'Stethoscope'
+  },
+  {
+    id: 'covid-protocol',
+    title: 'Protocolo COVID',
+    shortDesc: 'Prevención, tratamiento y seguimiento clínico en la comodidad de tu hogar.',
+    iconName: 'ShieldAlert'
+  },
+  {
+    id: 'telemedicine',
+    title: 'Telemedicina',
+    shortDesc: 'Orientación y consulta médica inmediata 12 h/7 días por llamadas y chat online.',
+    iconName: 'Smartphone'
+  },
+  {
+    id: 'laboratory-services',
+    title: 'Toma de muestras en casa',
+    shortDesc: 'Laboratorio clínico a domicilio con entrega rápida de resultados digitales.',
+    iconName: 'FlaskConical'
+  },
+  {
+    id: 'home-consultations',
+    title: 'Consultas en el hogar',
+    shortDesc: 'Unidades médicas, evaluación clínica, administración de tratamientos y seguimiento.',
+    iconName: 'HomePlus'
+  }
+];
+
+export const APPOINTMENT_SERVICES = [
+  { id: 'specialist-consultations', title: 'Consultas con especialistas' },
+  { id: 'elective-surgeries', title: 'Cirugías electivas' },
+  { id: 'radiology-services', title: 'Servicios de Radiología' },
+  { id: 'imaging-services', title: 'Servicios de Imágenes' },
+  { id: 'nursing-services', title: 'Servicio de Enfermería' },
+  { id: 'occupational-medicine', title: 'Medicina Ocupacional' },
+  { id: 'laboratory-services', title: 'Servicios de laboratorio' },
+  { id: 'home-consultations', title: 'Consultas en el hogar' },
+  { id: 'telemedicine', title: 'Telemedicina' },
+  { id: 'covid-protocol', title: 'Protocolo COVID' }
 ];
 
 export interface Doctor {

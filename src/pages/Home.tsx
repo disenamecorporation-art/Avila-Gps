@@ -7,12 +7,15 @@ import {
   FlaskConical,
   Home as HomeIcon,
   HeartHandshake,
-  Pill,
+  HeartPulse,
+  ScanLine,
+  BriefcaseMedical,
+  Stethoscope,
   ArrowRight,
   UserCheck,
   Clock,
   Cpu,
-  MapPin,
+  Building2,
   ChevronLeft,
   ChevronRight,
   Phone,
@@ -21,7 +24,8 @@ import {
 } from 'lucide-react';
 import { Hero } from '../components/Hero';
 import {
-  SERVICES,
+  HOME_UNITS,
+  HOME_OFFERINGS,
   CLIENTS,
   LOGO_SRC,
   TELEMEDICINE_PHONE_IMAGE,
@@ -59,16 +63,29 @@ export const Home: React.FC<HomeProps> = ({ onOpenAppointment }) => {
   });
   const yEditorialFloat = useTransform(editorialProgress, [0, 1], ['-10%', '10%']);
 
-  // Carousel index for Clients section
+  // Carousel filter & index for Aseguradoras y Empresas section
+  const [clientFilter, setClientFilter] = useState<'all' | 'insurers' | 'companies'>('all');
   const [clientIndex, setClientIndex] = useState(0);
+
+  const filteredClients = CLIENTS.filter((c) => {
+    const isInsurer = c.sector.toLowerCase().includes('aseguradora');
+    if (clientFilter === 'insurers') return isInsurer;
+    if (clientFilter === 'companies') return !isInsurer;
+    return true;
+  });
 
   // Group clients into sets of 4 for carousel slides
   const clientSlides = [];
-  for (let i = 0; i < CLIENTS.length; i += 4) {
-    clientSlides.push(CLIENTS.slice(i, i + 4));
+  for (let i = 0; i < filteredClients.length; i += 4) {
+    clientSlides.push(filteredClients.slice(i, i + 4));
   }
 
   useEffect(() => {
+    setClientIndex(0);
+  }, [clientFilter]);
+
+  useEffect(() => {
+    if (clientSlides.length <= 1) return;
     const timer = setInterval(() => {
       setClientIndex((prev) => (prev + 1) % clientSlides.length);
     }, 4500);
@@ -77,12 +94,15 @@ export const Home: React.FC<HomeProps> = ({ onOpenAppointment }) => {
 
   const getServiceIcon = (iconName: string) => {
     switch (iconName) {
+      case 'HeartPulse': return <HeartPulse className="w-6 h-6 text-[#033CA0]" />;
+      case 'ScanLine': return <ScanLine className="w-6 h-6 text-[#5BB2F5]" />;
+      case 'BriefcaseMedical': return <BriefcaseMedical className="w-6 h-6 text-[#6CC24A]" />;
+      case 'Stethoscope': return <Stethoscope className="w-6 h-6 text-[#033CA0]" />;
       case 'ShieldAlert': return <ShieldAlert className="w-6 h-6 text-[#5BB2F5]" />;
       case 'Smartphone': return <Smartphone className="w-6 h-6 text-[#6CC24A]" />;
       case 'FlaskConical': return <FlaskConical className="w-6 h-6 text-[#5BB2F5]" />;
       case 'HomePlus': return <HomeIcon className="w-6 h-6 text-[#6CC24A]" />;
       case 'HeartHandshake': return <HeartHandshake className="w-6 h-6 text-[#5BB2F5]" />;
-      case 'Pill': return <Pill className="w-6 h-6 text-[#6CC24A]" />;
       default: return <HeartHandshake className="w-6 h-6 text-[#6CC24A]" />;
     }
   };
@@ -94,6 +114,61 @@ export const Home: React.FC<HomeProps> = ({ onOpenAppointment }) => {
         onOpenAppointment={() => onOpenAppointment()}
         onLearnMoreClick={() => navigate('/nosotros')}
       />
+
+      {/* 1B. UNIDADES ESPECIALIZADAS DESTACADAS */}
+      <section className="max-w-6xl mx-auto px-4 sm:px-6">
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-8 gap-4">
+          <div className="space-y-1">
+            <h2 className="text-3xl sm:text-4xl font-light text-[#0A2A6B]">
+              Unidades Médicas <span className="font-normal text-[#6CC24A]">Especializadas</span>
+            </h2>
+            <p className="text-sm font-normal text-slate-600">
+              Diagnóstico de alta precisión y respaldo clínico para tu salud integral y empresarial.
+            </p>
+          </div>
+          <Link
+            to="/servicios"
+            className="inline-flex items-center gap-2 text-sm font-medium text-[#033CA0] hover:text-[#6CC24A] transition-colors group self-start sm:self-auto"
+          >
+            <span>Explorar unidades</span>
+            <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+          </Link>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {HOME_UNITS.map((unit, idx) => (
+            <motion.div
+              key={unit.id}
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-40px' }}
+              transition={{ duration: 0.5, delay: idx * 0.08 }}
+              whileHover={{ y: -6, transition: { duration: 0.2 } }}
+              onClick={() => onOpenAppointment(unit.modalServiceId)}
+              className="relative bg-white/90 backdrop-blur-md p-7 rounded-3xl border border-white shadow-lg hover:shadow-2xl hover:border-[#5BB2F5]/50 transition-all cursor-pointer group flex flex-col justify-between overflow-hidden"
+            >
+              <div className={`absolute inset-0 bg-gradient-to-br ${unit.accent} opacity-60 pointer-events-none`} />
+              <div className="relative z-10">
+                <div className="w-13 h-13 rounded-2xl bg-white shadow-sm border border-slate-100 flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
+                  {getServiceIcon(unit.iconName)}
+                </div>
+                <h3 className="text-xl font-semibold text-[#0A2A6B] mb-2.5 group-hover:text-[#033CA0] transition-colors">
+                  {unit.title}
+                </h3>
+                <p className="text-sm font-normal text-slate-600 leading-relaxed">
+                  {unit.desc}
+                </p>
+              </div>
+              <div className="relative z-10 pt-6 mt-5 border-t border-slate-200/70 flex items-center justify-between text-xs sm:text-sm font-medium text-[#033CA0]">
+                <span>Solicitar atención</span>
+                <div className="w-7 h-7 rounded-full bg-[#033CA0]/10 group-hover:bg-[#6CC24A] group-hover:text-white flex items-center justify-center transition-colors">
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </div>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </section>
 
       {/* 2. SECTION A: SERVICIOS — "¿Qué ofrecemos?" */}
       <section className="max-w-6xl mx-auto px-4 sm:px-6">
@@ -117,17 +192,17 @@ export const Home: React.FC<HomeProps> = ({ onOpenAppointment }) => {
           </Link>
         </div>
 
-        {/* 6 Glass Cards Grid with entrance parallax stagger */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {SERVICES.slice(0, 6).map((service, idx) => (
+        {/* 8 Glass Cards Grid with entrance parallax stagger */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          {HOME_OFFERINGS.map((service, idx) => (
             <motion.div
-              key={service.id}
+              key={service.id + idx}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: '-50px' }}
-              transition={{ duration: 0.5, delay: idx * 0.08, ease: [0.16, 1, 0.3, 1] }}
+              transition={{ duration: 0.5, delay: idx * 0.06, ease: [0.16, 1, 0.3, 1] }}
               whileHover={{ y: -6, transition: { duration: 0.2 } }}
-              onClick={() => onOpenAppointment(service.id)}
+              onClick={() => onOpenAppointment(service.modalServiceId || service.id)}
               className="bg-white/85 backdrop-blur-md p-6 rounded-3xl border border-white shadow-md hover:shadow-2xl hover:border-[#5BB2F5]/50 transition-all cursor-pointer group flex flex-col justify-between relative overflow-hidden"
             >
               <div>
@@ -136,16 +211,16 @@ export const Home: React.FC<HomeProps> = ({ onOpenAppointment }) => {
                   {getServiceIcon(service.iconName)}
                 </div>
 
-                <h3 className="text-lg font-semibold text-[#0A2A6B] mb-2 group-hover:text-[#033CA0] transition-colors">
+                <h3 className="text-base sm:text-lg font-semibold text-[#0A2A6B] mb-2 group-hover:text-[#033CA0] transition-colors leading-snug">
                   {service.title}
                 </h3>
 
-                <p className="text-sm font-normal text-slate-600 leading-relaxed">
+                <p className="text-xs sm:text-sm font-normal text-slate-600 leading-relaxed">
                   {service.shortDesc}
                 </p>
               </div>
 
-              <div className="pt-6 mt-4 border-t border-slate-100 flex items-center justify-between text-xs sm:text-sm font-medium text-[#033CA0]">
+              <div className="pt-5 mt-4 border-t border-slate-100 flex items-center justify-between text-xs sm:text-sm font-medium text-[#033CA0]">
                 <span>Solicitar atención</span>
                 <div className="w-6 h-6 rounded-full bg-[#033CA0]/5 group-hover:bg-[#6CC24A] group-hover:text-white flex items-center justify-center transition-colors">
                   <ArrowRight className="w-3.5 h-3.5" />
@@ -214,10 +289,10 @@ export const Home: React.FC<HomeProps> = ({ onOpenAppointment }) => {
                 </div>
 
                 <div className="flex items-start gap-3 bg-white/15 backdrop-blur-md p-3.5 rounded-2xl border border-white/30">
-                  <MapPin className="w-5 h-5 text-[#6CC24A] shrink-0 mt-0.5" />
+                  <Building2 className="w-5 h-5 text-[#6CC24A] shrink-0 mt-0.5" />
                   <div>
-                    <h4 className="text-xs sm:text-sm font-semibold text-white">Cobertura</h4>
-                    <p className="text-xs font-normal text-sky-100">En todo el país</p>
+                    <h4 className="text-xs sm:text-sm font-semibold text-white">Hogar y Sede</h4>
+                    <p className="text-xs font-normal text-sky-100">Atención integral</p>
                   </div>
                 </div>
               </div>
@@ -315,7 +390,7 @@ export const Home: React.FC<HomeProps> = ({ onOpenAppointment }) => {
               <span className="font-normal text-[#6CC24A]">es nuestra misión principal</span>
             </h3>
             <p className="text-sm font-normal text-sky-100 max-w-xl">
-              Atención médica primaria, telemedicina 24/7 y laboratorio a tu alcance en Valera y toda Venezuela.
+              Asistencia médica, telemedicina, laboratorio e imágenes a tu alcance en tu hogar o en nuestras instalaciones.
             </p>
           </div>
 
@@ -336,16 +411,45 @@ export const Home: React.FC<HomeProps> = ({ onOpenAppointment }) => {
       <section className="max-w-6xl mx-auto px-4 sm:px-6">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
           
-          {/* Left Card: Corporate Clients Carousel */}
+          {/* Left Card: Compañías Aseguradoras y Empresas */}
           <div className="lg:col-span-7 bg-white/85 backdrop-blur-md border border-white/90 rounded-3xl p-8 sm:p-10 shadow-xl flex flex-col justify-between">
             <div>
-              <h2 className="text-2xl sm:text-3xl font-light text-[#0A2A6B] mb-6">
-                Tu salud, en manos de grandes profesionales
-              </h2>
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+                <div>
+                  <h2 className="text-2xl sm:text-3xl font-light text-[#0A2A6B]">
+                    Compañías Aseguradoras y Empresas
+                  </h2>
+                  <p className="text-xs sm:text-sm font-normal text-slate-600 mt-1">
+                    Respaldo médico para pólizas de seguros y convenios corporativos.
+                  </p>
+                </div>
+
+                {/* Filter buttons */}
+                <div className="inline-flex bg-slate-100 p-1 rounded-full self-start sm:self-auto shrink-0">
+                  {[
+                    { key: 'all', label: 'Todos' },
+                    { key: 'insurers', label: 'Aseguradoras' },
+                    { key: 'companies', label: 'Empresas' }
+                  ].map((tab) => (
+                    <button
+                      key={tab.key}
+                      type="button"
+                      onClick={() => setClientFilter(tab.key as 'all' | 'insurers' | 'companies')}
+                      className={`px-3 py-1 rounded-full text-xs font-medium transition-all cursor-pointer ${
+                        clientFilter === tab.key
+                          ? 'bg-[#033CA0] text-white shadow-sm'
+                          : 'text-slate-600 hover:text-[#033CA0]'
+                      }`}
+                    >
+                      {tab.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
 
               {/* Client Cards Grid Slide */}
               <div className="min-h-[160px] flex items-center">
-                <div className="grid grid-cols-2 gap-4 w-full">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full">
                   {clientSlides[clientIndex]?.map((client, idx) => (
                     <motion.div
                       key={client.name + idx}
@@ -367,18 +471,27 @@ export const Home: React.FC<HomeProps> = ({ onOpenAppointment }) => {
             </div>
 
             {/* Carousel Controls */}
-            <div className="flex items-center justify-between pt-6 border-t border-slate-100 mt-6">
-              <div className="flex gap-1.5">
-                {clientSlides.map((_, i) => (
-                  <button
-                    key={i}
-                    onClick={() => setClientIndex(i)}
-                    className={`h-2 rounded-full transition-all cursor-pointer ${
-                      clientIndex === i ? 'w-6 bg-[#6CC24A]' : 'w-2 bg-slate-300'
-                    }`}
-                    aria-label={`Slide ${i + 1}`}
-                  />
-                ))}
+            <div className="flex flex-wrap items-center justify-between gap-4 pt-6 border-t border-slate-100 mt-6">
+              <div className="flex items-center gap-3">
+                <div className="flex gap-1.5">
+                  {clientSlides.map((_, i) => (
+                    <button
+                      key={i}
+                      onClick={() => setClientIndex(i)}
+                      className={`h-2 rounded-full transition-all cursor-pointer ${
+                        clientIndex === i ? 'w-6 bg-[#6CC24A]' : 'w-2 bg-slate-300'
+                      }`}
+                      aria-label={`Slide ${i + 1}`}
+                    />
+                  ))}
+                </div>
+                <Link
+                  to="/servicios#aseguradoras-empresas"
+                  className="text-xs font-medium text-[#033CA0] hover:text-[#6CC24A] transition-colors inline-flex items-center gap-1 ml-2"
+                >
+                  <span>Ver convenios</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </Link>
               </div>
 
               <div className="flex items-center gap-2">
@@ -467,7 +580,7 @@ export const Home: React.FC<HomeProps> = ({ onOpenAppointment }) => {
               </motion.h2>
 
               <p className="text-xs sm:text-sm font-normal text-sky-100/90 leading-relaxed max-w-2xl mx-auto lg:mx-0">
-                Conectamos a cada paciente y familia con asistencia médica continua, telemedicina y centros quirúrgicos aliados en todo el país.
+                Conectamos a cada paciente y familia con asistencia médica continua, unidades especializadas, telemedicina y centros aliados.
               </p>
             </div>
 

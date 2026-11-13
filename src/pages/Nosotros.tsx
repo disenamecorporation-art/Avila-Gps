@@ -19,7 +19,7 @@ export const Nosotros: React.FC<NosotrosProps> = ({ onOpenAppointment }) => {
             <span className="font-normal text-[#6CC24A]">Ávila C.A.</span>
           </>
         }
-        subtitle="Atención médica integral con un enfoque humano, transparente y profesional en el estado Trujillo y toda Venezuela."
+        subtitle="Atención médica integral con trato cercano, transparente y humano para cuidar de ti, tu familia y tu empresa."
       />
 
       {/* Main Presentation Section */}
@@ -39,31 +39,31 @@ export const Nosotros: React.FC<NosotrosProps> = ({ onOpenAppointment }) => {
               <span className="font-normal text-[#6CC24A]">tu tranquilidad y la de tu familia</span>
             </h2>
 
-            <p className="text-sm font-light text-slate-700 leading-relaxed">
-              <strong>Gestión Profesional de Salud Ávila C.A.</strong> es una empresa dedicada a ofrecer atención médica integral. Proporcionamos servicios de asistencia primaria, telemedicina y atención médica desde la comodidad de su hogar.
+            <p className="text-sm sm:text-base font-normal text-slate-700 leading-relaxed">
+              En <strong className="font-semibold text-[#0A2A6B]">Gestión Profesional de Salud Ávila C.A.</strong> creemos que cuidar tu salud no debería ser frío ni complicado. Nacimos para estar cerca cuando más lo necesitas, acompañando a cada paciente y su familia con calidez, respeto y respuestas médicas oportunas, ya sea en tu hogar o en nuestras instalaciones.
             </p>
 
-            <p className="text-sm font-light text-slate-700 leading-relaxed">
-              Contamos con protocolos COVID, realizamos cirugías electivas y ofrecemos medicina especializada en diversas áreas para todos aquellos pacientes que necesiten exámenes, diagnósticos, tratamientos e incluso rehabilitación, siempre con un enfoque humanizado.
+            <p className="text-sm sm:text-base font-normal text-slate-700 leading-relaxed">
+              Reunimos asistencia médica primaria, especialistas, unidades de cardiología, radiología e imágenes, laboratorio clínico, enfermería y medicina ocupacional bajo una atención honesta y humana, enfocada en escuchar, diagnosticar a tiempo y devolverte la tranquilidad.
             </p>
 
             {/* Bullet Highlights */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 pt-2">
               <div className="flex items-center gap-2.5">
-                <CheckCircle className="w-4 h-4 text-[#6CC24A]" />
-                <span className="text-xs font-normal text-[#0A2A6B]">Atención 24/7 a Domicilio</span>
+                <CheckCircle className="w-4 h-4 text-[#6CC24A] shrink-0" />
+                <span className="text-xs sm:text-sm font-normal text-[#0A2A6B]">Atención en Hogar e Instalaciones</span>
               </div>
               <div className="flex items-center gap-2.5">
-                <CheckCircle className="w-4 h-4 text-[#6CC24A]" />
-                <span className="text-xs font-normal text-[#0A2A6B]">Red de Aliados de Primer Nivel</span>
+                <CheckCircle className="w-4 h-4 text-[#6CC24A] shrink-0" />
+                <span className="text-xs sm:text-sm font-normal text-[#0A2A6B]">Unidades de Diagnóstico y Laboratorio</span>
               </div>
               <div className="flex items-center gap-2.5">
-                <CheckCircle className="w-4 h-4 text-[#6CC24A]" />
-                <span className="text-xs font-normal text-[#0A2A6B]">Telemedicina Inmediata</span>
+                <CheckCircle className="w-4 h-4 text-[#6CC24A] shrink-0" />
+                <span className="text-xs sm:text-sm font-normal text-[#0A2A6B]">Telemedicina y Seguimiento Cercano</span>
               </div>
               <div className="flex items-center gap-2.5">
-                <CheckCircle className="w-4 h-4 text-[#6CC24A]" />
-                <span className="text-xs font-normal text-[#0A2A6B]">Personal Altamente Capacitado</span>
+                <CheckCircle className="w-4 h-4 text-[#6CC24A] shrink-0" />
+                <span className="text-xs sm:text-sm font-normal text-[#0A2A6B]">Equipo Médico Humano y Certificado</span>
               </div>
             </div>
           </motion.div>
@@ -89,8 +89,8 @@ export const Nosotros: React.FC<NosotrosProps> = ({ onOpenAppointment }) => {
                 <div className="flex items-center gap-3">
                   <img src={LOGO_SRC} alt="Ávila GPS Logo" className="h-8 w-auto object-contain brightness-0 invert" />
                   <div>
-                    <h4 className="text-xs font-normal">Compromiso Humano</h4>
-                    <p className="text-[10px] text-sky-100 font-light">Valera, Estado Trujillo</p>
+                    <h4 className="text-xs font-medium">Compromiso Humano</h4>
+                    <p className="text-xs text-sky-100 font-normal">Valera, Estado Trujillo</p>
                   </div>
                 </div>
               </div>
@@ -113,13 +113,13 @@ export const Nosotros: React.FC<NosotrosProps> = ({ onOpenAppointment }) => {
                 transition={{ duration: 0.4, delay: idx * 0.08 }}
                 className="space-y-1 px-2"
               >
-                <div className="text-4xl sm:text-5xl font-extralight tracking-tight text-[#6CC24A]">
+                <div className="text-4xl sm:text-5xl font-light tracking-tight text-[#6CC24A]">
                   {stat.value}{stat.suffix}
                 </div>
-                <div className="text-xs sm:text-sm font-normal text-white">
+                <div className="text-xs sm:text-sm font-medium text-white">
                   {stat.label}
                 </div>
-                <div className="text-[11px] font-light text-sky-200/70 hidden sm:block">
+                <div className="text-xs font-normal text-sky-100/85 hidden sm:block">
                   {stat.desc}
                 </div>
               </motion.div>
@@ -134,8 +134,8 @@ export const Nosotros: React.FC<NosotrosProps> = ({ onOpenAppointment }) => {
           <h2 className="text-3xl sm:text-4xl font-light text-[#0A2A6B]">
             Instituciones aliadas
           </h2>
-          <p className="text-xs sm:text-sm font-light text-slate-600 max-w-xl mx-auto">
-            Trabajamos en alianza con los mejores centros médicos, clínicas y laboratorios para ofrecerte una cobertura completa.
+          <p className="text-xs sm:text-sm font-normal text-slate-600 max-w-xl mx-auto">
+            Trabajamos en alianza con centros médicos, clínicas y laboratorios de confianza para brindarte una atención completa.
           </p>
         </div>
 
@@ -153,14 +153,14 @@ export const Nosotros: React.FC<NosotrosProps> = ({ onOpenAppointment }) => {
                 <Building2 className="w-5 h-5" />
               </div>
               <div className="space-y-1">
-                <span className="text-[10px] font-normal uppercase tracking-wider text-[#6CC24A] bg-[#6CC24A]/10 px-2 py-0.5 rounded-full inline-block">
+                <span className="text-[11px] font-medium uppercase tracking-wider text-[#0F7A33] bg-[#6CC24A]/15 px-2.5 py-0.5 rounded-full inline-block">
                   {ally.tag}
                 </span>
-                <h4 className="text-xs font-normal text-[#0A2A6B]">
+                <h4 className="text-sm font-medium text-[#0A2A6B]">
                   {ally.name}
                 </h4>
-                <div className="flex items-center gap-1 text-[11px] text-slate-500 font-light">
-                  <MapPin className="w-3 h-3 text-slate-400" />
+                <div className="flex items-center gap-1 text-xs text-slate-500 font-normal">
+                  <MapPin className="w-3.5 h-3.5 text-slate-400" />
                   <span>{ally.city}</span>
                 </div>
               </div>

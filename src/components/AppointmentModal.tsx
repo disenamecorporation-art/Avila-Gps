@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { X, User, Phone, CheckCircle2, MapPin, Clock, ArrowRight } from 'lucide-react';
 import confetti from 'canvas-confetti';
-import { SERVICES, TEAM } from '../data/constants';
+import { APPOINTMENT_SERVICES, SERVICES, TEAM } from '../data/constants';
 
 interface AppointmentModalProps {
   isOpen: boolean;
@@ -11,13 +11,23 @@ interface AppointmentModalProps {
   initialDoctorName?: string;
 }
 
+const resolveAppointmentServiceId = (id?: string): string => {
+  if (!id) return APPOINTMENT_SERVICES[0].id;
+  if (APPOINTMENT_SERVICES.some((s) => s.id === id)) return id;
+  const matchedService = SERVICES.find((s) => s.id === id);
+  if (matchedService?.modalServiceId && APPOINTMENT_SERVICES.some((s) => s.id === matchedService.modalServiceId)) {
+    return matchedService.modalServiceId;
+  }
+  return APPOINTMENT_SERVICES[0].id;
+};
+
 export const AppointmentModal: React.FC<AppointmentModalProps> = ({
   isOpen,
   onClose,
   initialServiceId = '',
   initialDoctorName = ''
 }) => {
-  const [service, setService] = useState(initialServiceId || SERVICES[0].id);
+  const [service, setService] = useState(() => resolveAppointmentServiceId(initialServiceId));
   const [doctor, setDoctor] = useState(initialDoctorName || '');
   const [patientName, setPatientName] = useState('');
   const [patientPhone, setPatientPhone] = useState('');
@@ -25,6 +35,17 @@ export const AppointmentModal: React.FC<AppointmentModalProps> = ({
   const [locationType, setLocationType] = useState<'home' | 'clinic'>('home');
   const [appointmentDate, setAppointmentDate] = useState('');
   const [isSubmitted, setIsSubmitted] = useState(false);
+
+  useEffect(() => {
+    if (isOpen) {
+      setService(resolveAppointmentServiceId(initialServiceId));
+      setDoctor(initialDoctorName || '');
+      setIsSubmitted(false);
+    }
+  }, [isOpen, initialServiceId, initialDoctorName]);
+
+  const getServiceTitle = (id: string) =>
+    APPOINTMENT_SERVICES.find((s) => s.id === id)?.title || id;
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -39,8 +60,8 @@ export const AppointmentModal: React.FC<AppointmentModalProps> = ({
     });
 
     // Build structured WhatsApp message for 0412-1716058
-    const serviceTitle = SERVICES.find(s => s.id === service)?.title || service;
-    const modalText = locationType === 'home' ? 'Atención en el Hogar' : 'Consulta en Consultorio / Centro Aliado';
+    const serviceTitle = getServiceTitle(service);
+    const modalText = locationType === 'home' ? 'Atención en el Hogar' : 'Consulta en nuestras instalaciones';
     const lines = [
       '🩺 *SOLICITUD DE ATENCIÓN MÉDICA - ÁVILA GPS*',
       '----------------------------------------',
@@ -111,8 +132,8 @@ export const AppointmentModal: React.FC<AppointmentModalProps> = ({
                     <span className="font-normal text-[#6CC24A]">Atención Médica</span>
                   </h3>
 
-                  <p className="text-xs sm:text-sm font-light text-sky-100/90 leading-relaxed">
-                    Estamos listos para brindarte asistencia personalizada en la comodidad de tu hogar o en nuestra red de clínicas.
+                  <p className="text-xs sm:text-sm font-normal text-sky-100/95 leading-relaxed">
+                    Estamos listos para brindarte asistencia médica en tu hogar o en nuestras instalaciones
                   </p>
                 </div>
               </div>
@@ -124,18 +145,18 @@ export const AppointmentModal: React.FC<AppointmentModalProps> = ({
                     <div className="w-16 h-16 rounded-full bg-[#6CC24A]/20 text-[#0F7A33] flex items-center justify-center mx-auto">
                       <CheckCircle2 className="w-10 h-10 animate-bounce" />
                     </div>
-                    <h3 className="text-xl font-light text-[#0A2A6B]">
+                    <h3 className="text-xl font-normal text-[#0A2A6B]">
                       ¡Solicitud Registrada!
                     </h3>
-                    <p className="text-xs text-slate-600 font-light max-w-sm mx-auto leading-relaxed">
-                      Gracias, <strong className="font-normal text-[#033CA0]">{patientName}</strong>. Nuestro equipo de coordinación médica se pondrá en contacto contigo al <strong className="font-normal text-[#033CA0]">{patientPhone}</strong> en minutos.
+                    <p className="text-xs text-slate-600 font-normal max-w-sm mx-auto leading-relaxed">
+                      Gracias, <strong className="font-semibold text-[#033CA0]">{patientName}</strong>. Nuestro equipo de coordinación médica se pondrá en contacto contigo al <strong className="font-semibold text-[#033CA0]">{patientPhone}</strong> en minutos.
                     </p>
 
                     <div className="bg-white p-4 rounded-2xl border border-slate-200 text-left text-xs text-slate-600 space-y-1.5 shadow-sm">
                       <div className="flex justify-between">
                         <span className="text-slate-400">Servicio:</span>
                         <span className="font-medium text-[#0A2A6B]">
-                          {SERVICES.find(s => s.id === service)?.title || service}
+                          {getServiceTitle(service)}
                         </span>
                       </div>
                       {doctor && (
@@ -147,7 +168,7 @@ export const AppointmentModal: React.FC<AppointmentModalProps> = ({
                       <div className="flex justify-between">
                         <span className="text-slate-400">Modalidad:</span>
                         <span className="font-medium text-[#0A2A6B]">
-                          {locationType === 'home' ? 'Atención en el Hogar' : 'Consulta en Centro Médico'}
+                          {locationType === 'home' ? 'Atención en el Hogar' : 'En nuestras instalaciones'}
                         </span>
                       </div>
                     </div>
@@ -158,9 +179,9 @@ export const AppointmentModal: React.FC<AppointmentModalProps> = ({
                           `🩺 *SOLICITUD DE ATENCIÓN MÉDICA - ÁVILA GPS*\n` +
                           `👤 *Paciente:* ${patientName}\n` +
                           `📞 *Teléfono:* ${patientPhone}\n` +
-                          `🏥 *Servicio:* ${SERVICES.find(s => s.id === service)?.title || service}\n` +
+                          `🏥 *Servicio:* ${getServiceTitle(service)}\n` +
                           (doctor ? `👨‍⚕️ *Especialista:* ${doctor}\n` : '') +
-                          `📍 *Modalidad:* ${locationType === 'home' ? 'Atención en el Hogar' : 'Consulta en Consultorio'}`
+                          `📍 *Modalidad:* ${locationType === 'home' ? 'Atención en el Hogar' : 'En nuestras instalaciones'}`
                         )}`}
                         target="_blank"
                         rel="noopener noreferrer"
@@ -189,7 +210,7 @@ export const AppointmentModal: React.FC<AppointmentModalProps> = ({
                         required
                         className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-white text-xs text-[#0A2A6B] focus:ring-2 focus:ring-[#6CC24A] outline-none transition shadow-sm"
                       >
-                        {SERVICES.map((s) => (
+                        {APPOINTMENT_SERVICES.map((s) => (
                           <option key={s.id} value={s.id}>
                             {s.title}
                           </option>

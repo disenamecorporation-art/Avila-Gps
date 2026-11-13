@@ -99,7 +99,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenAppointment, onLearnMoreClick 
                   <Heart className="w-4 h-4 text-[#6CC24A]" />
                 </div>
                 <span className="text-xs sm:text-sm font-medium text-white leading-tight">
-                  Atención primaria en salud
+                  Asistencia médica primaria
                 </span>
               </div>
 
